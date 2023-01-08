@@ -29,8 +29,9 @@ if not status_ok then
 	return
 end
 
--- Have packer use a popup window
+-- Configure Packer
 packer.init({
+  -- Have packer use a popup window
 	display = {
 		open_fn = function()
 			return require("packer.util").float({ border = "rounded" })
@@ -57,6 +58,8 @@ return packer.startup(function(use)
   use { "lukas-reineke/indent-blankline.nvim", commit = "db7cbcb40cc00fc5d6074d7569fb37197705e7f6" }
   use { "goolord/alpha-nvim", commit = "0bb6fc0646bcd1cdb4639737a1cee8d6e08bcc31" }
 	use { "folke/which-key.nvim", commit = "802219ba26409f325a5575e3b684b6cb054e2cc5"}
+  use { "dstein64/vim-startuptime", commit = "cb4c112b9e0f224236ee4eab6bf5153406b3f88b" } -- measure startuptime
+  use { "phaazon/hop.nvim", branch = "v2", commit = "90db1b2c61b820e230599a04fedcd2679e64bd07" }
 
 	-- Colorschemes
   use { "folke/tokyonight.nvim", commit = "66bfc2e8f754869c7b651f3f47a2ee56ae557764" }
