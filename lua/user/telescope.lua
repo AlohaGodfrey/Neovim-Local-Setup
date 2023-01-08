@@ -5,6 +5,7 @@ end
 
 local actions = require "telescope.actions"
 
+telescope.load_extension("frecency")
 telescope.setup {
   defaults = {
 
@@ -92,5 +93,19 @@ telescope.setup {
     --   extension_config_key = value,
     -- }
     -- please take a look at the readme of the extension you want to configure
+    frecency = {
+      -- db_root = "home/my_username/path/to/db_root",
+      show_scores = true,
+      show_unindexed = true,
+      -- ignore_patterns = {"*.git/*", "*/tmp/*"},
+      -- disable_devicons = false,
+      -- workspaces = {
+      --   ["conf"]    = "/home/my_username/.config",
+      --   ["data"]    = "/home/my_username/.local/share",
+      --   ["project"] = "/home/my_username/projects",
+      --   ["wiki"]    = "/home/my_username/wiki"
+      -- }
+    }
   },
 }
+
