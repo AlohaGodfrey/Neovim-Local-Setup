@@ -99,7 +99,7 @@ local mappings = {
   --   "Find files",
   -- },
   ["f"] = {
-    "<cmd>Telescope frecency theme=get_dropdown workspace=CWD previewer=false<cr>",
+    "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
     "Find files",
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },

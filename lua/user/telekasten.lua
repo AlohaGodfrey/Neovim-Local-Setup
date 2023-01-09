@@ -3,7 +3,7 @@ if not status_ok then
 	return
 end
 
-local home="/Users/imangodf/Documents/Obsidian/Crankshaft-2035"
+local home="/Users/imangodf/Documents/Obsidian/CommonPlace"
 -- local home="$NVIM_TELEKASTEN_DIR"
 
 telekasten.setup({

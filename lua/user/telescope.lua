@@ -5,7 +5,6 @@ end
 
 local actions = require "telescope.actions"
 
-telescope.load_extension("frecency")
 telescope.setup {
   defaults = {
 
@@ -97,15 +96,27 @@ telescope.setup {
       -- db_root = "home/my_username/path/to/db_root",
       show_scores = true,
       show_unindexed = true,
+      -- default_workspace = "CWD",
+      show_filter_column = { "conf", "aws", "cplace", "nvim"},
       -- ignore_patterns = {"*.git/*", "*/tmp/*"},
       -- disable_devicons = false,
-      -- workspaces = {
-      --   ["conf"]    = "/home/my_username/.config",
-      --   ["data"]    = "/home/my_username/.local/share",
-      --   ["project"] = "/home/my_username/projects",
-      --   ["wiki"]    = "/home/my_username/wiki"
-      -- }
-    }
+      workspaces = {
+        -- ["conf"]    = "Users/imangodf/.config",
+        -- ["data"]    = "/Users/imangodf/.local/share",
+        ["cplace"]  = "/users/imangodf/Documents/Obsidian/CommonPlace",
+        -- ["aws"]  = "/users/imangodf/Documents/Obsidian/AWS",
+        ["aws"]  = "/users/imangodf/AWS",
+        ["nvim"] = "/Users/imangodf/.config/nvim",
+        -- ["project"] = "/home/my_username/projects",
+        -- ["wiki"]    = "/home/my_username/wiki"
+        -- aws
+        -- wiki/personal/crankshaft/grab name from tiago forte video on ancient people
+        -- and their books with partial information, think it was the video about garden notes...
+        -- nvim
+        -- '.' always mean personal directory
+      }
+    },
   },
 }
 
+telescope.load_extension("frecency")
