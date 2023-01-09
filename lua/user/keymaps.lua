@@ -67,6 +67,9 @@ keymap("n", "t", ":HopLineAC <CR>", opts)
 keymap("n", "T", ":HopLineBC <CR>", opts)
 keymap("n", "F", ":HopWord <CR>", opts)
 
+-- Toggle Telekasten Todo 
+keymap("n", "<C-x>", ":Telekasten toggle_todo<CR>", opts)
+
 -- Terminal --
 -- Better terminal navigation
 -- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)

@@ -189,6 +189,16 @@ local mappings = {
     h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
     v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
   },
+
+  r = {
+    name = "Telekasten",
+    u = { "<cmd>Telekasten show_tags<cr>", "Tags"},
+    h = { "<cmd>Telekasten find_daily_note<cr>", "Daily"},
+    i = { "<cmd>Telekasten insert_link<cr>", "Create Link"},
+    m = { "<cmd>Telekasten show_backlinks<cr>", "Backlinks"},
+    k = { "<cmd>Telekasten find_friends<cr>", "Search Link"},
+    r = { "<cmd>Telekasten rename_note<cr>", "Rename Note"},
+  }
 }
 
 which_key.setup(setup)

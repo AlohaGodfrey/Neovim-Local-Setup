@@ -54,12 +54,12 @@ return packer.startup(function(use)
 	use { "moll/vim-bbye", commit = "25ef93ac5a87526111f43e5110675032dbcacf56" }
   use { "nvim-lualine/lualine.nvim", commit = "a52f078026b27694d2290e34efa61a6e4a690621" }
   use { "akinsho/toggleterm.nvim", commit = "2a787c426ef00cb3488c11b14f5dcf892bbd0bda" }
-  -- use { "ahmedkhalf/project.nvim", commit = "628de7e433dd503e782831fe150bb750e56e55d6" }
   use { "lukas-reineke/indent-blankline.nvim", commit = "db7cbcb40cc00fc5d6074d7569fb37197705e7f6" }
   use { "goolord/alpha-nvim", commit = "0bb6fc0646bcd1cdb4639737a1cee8d6e08bcc31" }
 	use { "folke/which-key.nvim", commit = "802219ba26409f325a5575e3b684b6cb054e2cc5"}
   use { "dstein64/vim-startuptime", commit = "cb4c112b9e0f224236ee4eab6bf5153406b3f88b" } -- measure startuptime
-  use { "phaazon/hop.nvim", branch = "v2", commit = "90db1b2c61b820e230599a04fedcd2679e64bd07" }
+  use { "phaazon/hop.nvim", branch = "v2", commit = "90db1b2c61b820e230599a04fedcd2679e64bd07" } -- quick motions
+  use { "renerocksai/telekasten.nvim", commit = "7a6e89131e06c124cdf1d51d7169a19bd507e858" } -- zettelkasten features
 
 	-- Colorschemes
   use { "folke/tokyonight.nvim", commit = "66bfc2e8f754869c7b651f3f47a2ee56ae557764" }
