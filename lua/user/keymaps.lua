@@ -63,9 +63,9 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Hop Plugin --
 keymap("n", "f", ":HopChar1CurrentLine <CR>", opts)
-keymap("n", "t", ":HopLineAC <CR>", opts)
+keymap("n", "F", ":HopAnywhere <CR>", opts)
 keymap("n", "T", ":HopLineBC <CR>", opts)
-keymap("n", "F", ":HopWord <CR>", opts)
+keymap("n", "t", ":HopWord <CR>", opts)
 
 -- Toggle Telekasten Todo 
 keymap("n", "<C-x>", ":Telekasten toggle_todo<CR>", opts)

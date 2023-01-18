@@ -96,14 +96,24 @@ local mappings = {
   -- },
   -- ["f"] = {
   --   "<cmd>lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown{previewer = false}})<cr>",
-  --   "Find files",
+  --   "Find files", 
   -- },
   ["f"] = {
     "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
     "Find files",
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-
+  ["o"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Recent Files" },
+  ["r"] = { "<cmd>MindOpenProject<cr>", "Mind" },
+  -- ["v"] = { ":!chrome-cli open https://issues.amazon.com/issues/MF-SLA-", "MF-SLA-ID" },
+  -- ["d"] = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "MF-SLA-ID" },
+  k = {
+    name = "Managed Fleets",
+    c = { ":! pbpaste | xargs -I '{}' tmux send-keys -t ManagedFleets.1 \"bre SlamHelp -s {} -ss \" Enter", "Tmux-Service-Name" },
+    r = { ":! pbpaste | xargs -I '{}' chrome-cli open https://fleetcop.corp.amazon.com/{}.html <CR><CR>", "Web-Fleetcop-Service-Name" },
+    v = { ":! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-ID" },
+    -- d = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "Tmux w/o SSH" },
+  },
   p = {
     name = "Packer",
     c = { "<cmd>PackerCompile<cr>", "Compile" },
@@ -112,7 +122,9 @@ local mappings = {
     S = { "<cmd>PackerStatus<cr>", "Status" },
     u = { "<cmd>PackerUpdate<cr>", "Update" },
   },
-
+  z ={
+    name = "Spelling",
+  },
   g = {
     name = "Git",
     g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit" },
@@ -190,7 +202,7 @@ local mappings = {
     v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
   },
 
-  r = {
+  y = {
     name = "Telekasten",
     u = { "<cmd>Telekasten show_tags<cr>", "Tags"},
     h = { "<cmd>Telekasten find_daily_note<cr>", "Daily"},
@@ -198,7 +210,8 @@ local mappings = {
     m = { "<cmd>Telekasten show_backlinks<cr>", "Backlinks"},
     k = { "<cmd>Telekasten find_friends<cr>", "Search Link"},
     r = { "<cmd>Telekasten rename_note<cr>", "Rename Note"},
-  }
+  },
+
 }
 
 which_key.setup(setup)
