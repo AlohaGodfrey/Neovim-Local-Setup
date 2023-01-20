@@ -41,8 +41,10 @@ packer.init({
 
 -- Install your plugins here
 return packer.startup(function(use)
+  -- Packer
   use { "wbthomason/packer.nvim", commit = "6afb67460283f0e990d35d229fd38fdc04063e0a" } -- Have packer manage itself
-
+  
+  -- Plugins
   use { "lewis6991/impatient.nvim", commit = "b842e16ecc1a700f62adb9802f8355b99b52a5a6" } -- Performance increase with caching
   use { "nvim-lua/plenary.nvim", commit = "4b7e52044bbb84242158d977a50c4cbcd85070c7" } -- Useful lua functions used by lots of plugins
   use { "windwp/nvim-autopairs", commit = "4fc96c8f3df89b6d23e5092d31c866c53a346347" } -- Autopairs, integrates with both cmp and treesitter
@@ -61,7 +63,21 @@ return packer.startup(function(use)
   use { "phaazon/hop.nvim", branch = "v2", commit = "90db1b2c61b820e230599a04fedcd2679e64bd07" } -- quick motions
   use { "renerocksai/telekasten.nvim", disable = "true",commit = "7a6e89131e06c124cdf1d51d7169a19bd507e858" } -- zettelkasten features
   use { "kylechui/nvim-surround", commit = "ad56e6234bf42fb7f7e4dccc7752e25abd5ec80e"  }
-  use { "phaazon/mind.nvim", branch = 'v2.2', requires = { 'nvim-lua/plenary.nvim' } }
+  -- use { "MunifTanjim/nui.nvim", commit = "b99e6cb13dc51768abc1c4c8585045a0c0459ef1"} -- UI dependency for ChatGPT
+  use({
+    "jackMort/ChatGPT.nvim",
+      -- config = function()
+      --   require("chatgpt").setup({
+      --     -- optional configuration
+      --   })
+      -- end,
+      commit = "dac83f630fc6aafd256b149a2c2ae0d4466ec85e",
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope.nvim"
+      }
+  })
 
 	-- Colorschemes
   use { "folke/tokyonight.nvim", commit = "66bfc2e8f754869c7b651f3f47a2ee56ae557764" }

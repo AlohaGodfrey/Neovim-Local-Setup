@@ -89,22 +89,21 @@ local mappings = {
   ["q"] = { "<cmd>q<CR>", "Quit" },
   ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-  ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-  -- ["f"] = {
-  --   "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-  --   "Find files",
-  -- },
+  -- ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
+  ["f"] = {
+    "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+    "Find files",
+  },
   -- ["f"] = {
   --   "<cmd>lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown{previewer = false}})<cr>",
   --   "Find files", 
   -- },
-  ["f"] = {
+  ["o"] = {
     "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
-    "Find files",
+    "Recent Files",
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  ["o"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Recent Files" },
-  ["r"] = { "<cmd>MindOpenProject<cr>", "Mind" },
+  ["O"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
   -- ["v"] = { ":!chrome-cli open https://issues.amazon.com/issues/MF-SLA-", "MF-SLA-ID" },
   -- ["d"] = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "MF-SLA-ID" },
   k = {
@@ -202,14 +201,20 @@ local mappings = {
     v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
   },
 
-  y = {
-    name = "Telekasten",
-    u = { "<cmd>Telekasten show_tags<cr>", "Tags"},
-    h = { "<cmd>Telekasten find_daily_note<cr>", "Daily"},
-    i = { "<cmd>Telekasten insert_link<cr>", "Create Link"},
-    m = { "<cmd>Telekasten show_backlinks<cr>", "Backlinks"},
-    k = { "<cmd>Telekasten find_friends<cr>", "Search Link"},
-    r = { "<cmd>Telekasten rename_note<cr>", "Rename Note"},
+  -- y = {
+  --   name = "Telekasten",
+  --   u = { "<cmd>Telekasten show_tags<cr>", "Tags"},
+  --   h = { "<cmd>Telekasten find_daily_note<cr>", "Daily"},
+  --   i = { "<cmd>Telekasten insert_link<cr>", "Create Link"},
+  --   m = { "<cmd>Telekasten show_backlinks<cr>", "Backlinks"},
+  --   k = { "<cmd>Telekasten find_friends<cr>", "Search Link"},
+  --   r = { "<cmd>Telekasten rename_note<cr>", "Rename Note"},
+  -- },
+  h = {
+    name = "ChatGPT",
+    a = { "<cmd>ChatGPT<cr>", "ChatGPT"},
+    d = { "<cmd>ChatGPTEditWithInstructions <cr>", "GPT Copilot"},
+    s = { "<cmd>ChatGPTActAs <cr>", "GPT Templates"},
   },
 
 }
