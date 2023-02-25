@@ -10,7 +10,7 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Modes
+-- Modes TODO
 --   normal_mode = "n",
 --   insert_mode = "i",
 --   visual_mode = "v",
@@ -62,12 +62,13 @@ keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Hop Plugin --
-keymap("n", "f", ":HopChar1CurrentLine <CR>", opts)
-keymap("n", "F", ":HopWord <CR>", opts)
-keymap("n", "T", ":HopLine <CR>", opts)
+-- keymap("n", "f", ":HopChar1CurrentLine <CR>", opts)
+-- keymap("n", "F", ":HopWord <CR>", opts)
+keymap("n", "t", ":HopLine <CR>", opts)
 
 -- Toggle Telekasten Todo 
 keymap("n", "<C-x>", ":Telekasten toggle_todo<CR>", opts)
+keymap("v", "<C-x>", ":'<,'> Telekasten toggle_todo<CR>", opts)
 
 -- Terminal --
 -- Better terminal navigation

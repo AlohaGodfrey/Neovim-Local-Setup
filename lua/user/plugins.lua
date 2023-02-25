@@ -48,6 +48,7 @@ return packer.startup(function(use)
   use { "lewis6991/impatient.nvim", commit = "b842e16ecc1a700f62adb9802f8355b99b52a5a6" } -- Performance increase with caching
   use { "nvim-lua/plenary.nvim", commit = "4b7e52044bbb84242158d977a50c4cbcd85070c7" } -- Useful lua functions used by lots of plugins
   use { "windwp/nvim-autopairs", commit = "4fc96c8f3df89b6d23e5092d31c866c53a346347" } -- Autopairs, integrates with both cmp and treesitter
+  use { "MunifTanjim/nui.nvim", commit = "b99e6cb13dc51768abc1c4c8585045a0c0459ef1" } -- dependency for gpt plugin
   use { "numToStr/Comment.nvim", commit = "97a188a98b5a3a6f9b1b850799ac078faa17ab67" }
   use { "JoosepAlviste/nvim-ts-context-commentstring", commit = "4d3a68c41a53add8804f471fcc49bb398fe8de08" }
   use { "kyazdani42/nvim-web-devicons", commit = "563f3635c2d8a7be7933b9e547f7c178ba0d4352" }
@@ -61,22 +62,18 @@ return packer.startup(function(use)
 	use { "folke/which-key.nvim", commit = "802219ba26409f325a5575e3b684b6cb054e2cc5"}
   use { "dstein64/vim-startuptime", commit = "cb4c112b9e0f224236ee4eab6bf5153406b3f88b" } -- measure startuptime
   use { "phaazon/hop.nvim", branch = "v2", commit = "90db1b2c61b820e230599a04fedcd2679e64bd07" } -- quick motions
-  use { "renerocksai/telekasten.nvim", disable = "true",commit = "7a6e89131e06c124cdf1d51d7169a19bd507e858" } -- zettelkasten features
+  use { "renerocksai/telekasten.nvim", commit = "7a6e89131e06c124cdf1d51d7169a19bd507e858" } -- zettelkasten features
   use { "kylechui/nvim-surround", commit = "ad56e6234bf42fb7f7e4dccc7752e25abd5ec80e"  }
-  -- use { "MunifTanjim/nui.nvim", commit = "b99e6cb13dc51768abc1c4c8585045a0c0459ef1"} -- UI dependency for ChatGPT
+  use { "jghauser/follow-md-links.nvim", commit = "a8b1060137b64653afa7daf3ac6a8a3fa791d64c"}
+  use { "jackMort/ChatGPT.nvim", commit = "dac83f630fc6aafd256b149a2c2ae0d4466ec85e" }
+  use { "stevearc/aerial.nvim", commit = "5b788392ec571621891e1b73887af5ac12056610" }
+  use { "andrewferrier/wrapping.nvim", commit = "fcd57ac890f2af39fb1ddda54e989a15c7158629" } -- soft and hard markdown wraps
+  use { "folke/drop.nvim", event = "VimEnter", commit = "9e41e751d5f09b1e1333afe7eb9315f392e507fa" } -- autumn leaf drop
+
+  -- Persist Neovim Session
   use({
-    "jackMort/ChatGPT.nvim",
-      -- config = function()
-      --   require("chatgpt").setup({
-      --     -- optional configuration
-      --   })
-      -- end,
-      commit = "dac83f630fc6aafd256b149a2c2ae0d4466ec85e",
-      requires = {
-        "MunifTanjim/nui.nvim",
-        "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope.nvim"
-      }
+     "folke/persistence.nvim", event = "BufReadPre", module = "persistence",
+     commit = "b0e2b283c62a8cfb0d7f78f43dc6c2ba4157259f"
   })
 
 	-- Colorschemes
@@ -101,14 +98,12 @@ return packer.startup(function(use)
   use { "williamboman/mason-lspconfig.nvim", commit = "0051870dd728f4988110a1b2d47f4a4510213e31" }
 	use { "jose-elias-alvarez/null-ls.nvim", commit = "c0c19f32b614b3921e17886c541c13a72748d450" } -- for formatters and linters
   use { "RRethy/vim-illuminate", commit = "a2e8476af3f3e993bb0d6477438aad3096512e42" }
+  use { "mfussenegger/nvim-jdtls", commit = "1f640d14d17f20cfc63c1acc26a10f9466e66a75" }
 
 	-- Telescope
 	use { "nvim-telescope/telescope.nvim", commit = "76ea9a898d3307244dce3573392dcf2cc38f340f" }
   use { "kkharji/sqlite.lua", commit = "53cac3fdb5f5e4e63e243232b6eccf3c764ae18a"} -- dependency for telescope-frecency
-  use {
-    "nvim-telescope/telescope-frecency.nvim", commit = "62cbd4e7f55fb6de2b8081087ce97026022ffcd2",
-    requires = {"kkharji/sqlite.lua"}
-  }
+  use { "nvim-telescope/telescope-frecency.nvim", commit = "62cbd4e7f55fb6de2b8081087ce97026022ffcd2"}
 
 	-- Treesitter
 	use { "nvim-treesitter/nvim-treesitter", commit = "8e763332b7bf7b3a426fd8707b7f5aa85823a5ac", }

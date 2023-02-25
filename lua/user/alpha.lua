@@ -16,8 +16,10 @@ dashboard.section.buttons.val = {
 	dashboard.button("f", "  Find file", ":Telescope find_files theme=dropdown previewer=false <CR>"),
 	dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 	dashboard.button("o", "  Recently used files", ":Telescope frecency theme=dropdown previewer=false <CR>"),
+	dashboard.button("l", "  Reopen last session", "<cmd>lua require(\"persistence\").load({ last = true })<cr>"),
 	dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
-	dashboard.button("c", "  Configuration", ":e $MYVIMRC <CR>"),
+	dashboard.button("c", "  Configuration", ":e ~/.config/nvim/lua/user/plugins.lua <CR>"),
+	-- dashboard.button("c", "  Configuration", ":e $MYVIMRC <CR>"),
 	dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
 }
 

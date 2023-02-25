@@ -8,7 +8,7 @@ local setup = {
     marks = false, -- shows a list of your marks on ' and `
     registers = false, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
     spelling = {
-      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
       suggestions = 20, -- how many suggestions should be shown in the list?
     },
     -- the presets plugin, adds help for a bunch of default keybindings in Neovim
@@ -19,7 +19,7 @@ local setup = {
       text_objects = true, -- help for text objects triggered after entering an operator
       windows = true, -- default bindings on <c-w>
       nav = true, -- misc bindings to work with windows
-      z = true, -- bindings for folds, spelling and others prefixed with z
+      z = false, -- bindings for folds, spelling and others prefixed with z
       g = false, -- bindings for prefixed with g
     },
   },
@@ -79,7 +79,9 @@ local opts = {
 }
 
 local mappings = {
+  -- Available keys: n, y, k, m
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
+  ["A"] = { "<cmd>lua require('impulse').menu_search()<cr>", "Notion.so" },
   ["b"] = {
     "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Buffers",
@@ -89,11 +91,13 @@ local mappings = {
   ["q"] = { "<cmd>q<CR>", "Quit" },
   ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-  -- ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
+  ["i"] = { "<cmd>AerialToggle float<CR>", "Aerial" },
+  ["I"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   ["f"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
+  ["u"] = {"<cmd>lua require('telescope.builtin').lsp_document_symbols(require('telescope.themes').get_dropdown())<CR>", "Doc Symbols"},
   -- ["f"] = {
   --   "<cmd>lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown{previewer = false}})<cr>",
   --   "Find files", 
@@ -104,15 +108,14 @@ local mappings = {
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
   ["O"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
-  -- ["v"] = { ":!chrome-cli open https://issues.amazon.com/issues/MF-SLA-", "MF-SLA-ID" },
-  -- ["d"] = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "MF-SLA-ID" },
-  k = {
-    name = "Managed Fleets",
-    c = { ":! pbpaste | xargs -I '{}' tmux send-keys -t ManagedFleets.1 \"bre SlamHelp -s {} -ss \" Enter", "Tmux-Service-Name" },
-    r = { ":! pbpaste | xargs -I '{}' chrome-cli open https://fleetcop.corp.amazon.com/{}.html <CR><CR>", "Web-Fleetcop-Service-Name" },
-    v = { ":! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-ID" },
-    -- d = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "Tmux w/o SSH" },
-  },
+  ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
+  -- k = {
+  --   name = "Managed Fleets",
+  --   c = { ":! pbpaste | xargs -I '{}' tmux send-keys -t ManagedFleets.1 \"bre SlamHelp -s {} -ss \" Enter", "Tmux-Service-Name" },
+  --   r = { ":! pbpaste | xargs -I '{}' chrome-cli open https://fleetcop.corp.amazon.com/{}.html <CR><CR>", "Web-Fleetcop-Service-Name" },
+  --   v = { ":! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-ID" },
+  --   -- d = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "Tmux w/o SSH" },
+  -- },
   p = {
     name = "Packer",
     c = { "<cmd>PackerCompile<cr>", "Compile" },
@@ -120,9 +123,6 @@ local mappings = {
     s = { "<cmd>PackerSync<cr>", "Sync" },
     S = { "<cmd>PackerStatus<cr>", "Status" },
     u = { "<cmd>PackerUpdate<cr>", "Update" },
-  },
-  z ={
-    name = "Spelling",
   },
   g = {
     name = "Git",
@@ -195,21 +195,14 @@ local mappings = {
     n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
     u = { "<cmd>lua _NCDU_TOGGLE()<cr>", "NCDU" },
     t = { "<cmd>lua _HTOP_TOGGLE()<cr>", "Htop" },
+    a = { "<cmd>lua _TASK_TOGGLE()<cr>", "Task" },
     p = { "<cmd>lua _PYTHON_TOGGLE()<cr>", "Python" },
     f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
     h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
     v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
+    g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit" },
   },
 
-  -- y = {
-  --   name = "Telekasten",
-  --   u = { "<cmd>Telekasten show_tags<cr>", "Tags"},
-  --   h = { "<cmd>Telekasten find_daily_note<cr>", "Daily"},
-  --   i = { "<cmd>Telekasten insert_link<cr>", "Create Link"},
-  --   m = { "<cmd>Telekasten show_backlinks<cr>", "Backlinks"},
-  --   k = { "<cmd>Telekasten find_friends<cr>", "Search Link"},
-  --   r = { "<cmd>Telekasten rename_note<cr>", "Rename Note"},
-  -- },
   h = {
     name = "ChatGPT",
     a = { "<cmd>ChatGPT<cr>", "ChatGPT"},
