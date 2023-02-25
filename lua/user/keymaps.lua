@@ -62,13 +62,21 @@ keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Hop Plugin --
--- keymap("n", "f", ":HopChar1CurrentLine <CR>", opts)
--- keymap("n", "F", ":HopWord <CR>", opts)
 keymap("n", "t", ":HopLine <CR>", opts)
 
 -- Toggle Telekasten Todo 
 keymap("n", "<C-x>", ":Telekasten toggle_todo<CR>", opts)
 keymap("v", "<C-x>", ":'<,'> Telekasten toggle_todo<CR>", opts)
+
+-- Composite custom script to follow markdown links
+keymap("n", "<CR>", ":lua require('user.composite').follow_link()<CR>", opts)
+
+-- Shortcut to bring back last/lost buffers
+keymap("n", "<S-BS>", ":edit #<CR>", opts)
+
+-- Aerial shortcut to jump to next heading
+keymap("n", "<C-[>", ":lua require('aerial').prev(step)<CR>", opts)
+keymap("n", "<C-]>", ":lua require('aerial').next(step)<CR>", opts)
 
 -- Terminal --
 -- Better terminal navigation

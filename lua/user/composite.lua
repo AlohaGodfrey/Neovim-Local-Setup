@@ -4,13 +4,15 @@
  local api = vim.api
  local fn = vim.fn
 
+ -- we need to fix the url to be shorter, so obsidan app can be aware
  local function list_todo_items()
    local todo_items = {}
    -- local compositefiledir = "/Users/imangodf/Documents/Obsidian/CommonPlace/composite.md"
    local compositeFileRegex = 'composite%.md$'
    local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "**", 1, 1)
+
    for _, file in ipairs(files) do
-     -- if file ~= compositefiledir and fn.filereadable(file) == 1 then
+
      if not string.match(file, compositeFileRegex) and fn.filereadable(file) == 1 then
        local lines = api.nvim_call_function("readfile", {file})
        local file_todos = {}
@@ -22,7 +24,6 @@
 
        --Sort the tables content by list '- [ ]' first
        table.sort(file_todos)
-
        -- Append todo_items list with file_todos list
        if next(file_todos) ~= nil then
          table.insert(todo_items, {filepath = file, todos = file_todos})
@@ -40,171 +41,49 @@
 
    -- write to the composite file
    local output_file = io.open("composite.md", "w")
-   for _, item in ipairs(todo_items) do
+   if output_file == nil then return end
 
-     -- format title
-     -- output_file:write(string.format("## %s\n", item.filepath))
-     -- output_file:write(string.format("## %s\n", vim.fn.fnamemodify(item.filepath, ':t')))
+   for _, item in ipairs(todo_items) do
      local filename = vim.fn.fnamemodify(item.filepath, ':t')
      local shortFilename = string.gsub(filename, '%.md$', '')
-     output_file:write(string.format("[%s](%s)\n",  shortFilename, item.filepath))
-
+     local shortFilenameMd = shortFilename .. ".md"
+     -- output_file:write(string.format("##### [%s](%s)\n", shortFilename, item.filepath))
+     output_file:write(string.format("##### [%s](%s)\n", shortFilename, shortFilenameMd))
      for _, todo in ipairs(item.todos) do
-       output_file:write(string.format(" %s\n", todo))
+      output_file:write(string.format(" %s\n", todo))
      end
      output_file:write("\n")
    end
    output_file:close()
 
-   -- open the file
-   -- │ local dir = vim.fn.getcwd()
-   --   local files = vim.fn.glob(dir .. '/*composite.md')
-   -- │ if #files > 0 then
-   -- │   print('File ending in composite.md found in current working directory')
-   -- │ else
-   -- │   print('No file ending in composite.md found in current working directory')
-   -- │ end
    local dir = vim.fn.getcwd()
    local files = vim.fn.glob(dir .. '/*composite.md')
-   -- vim.api.nvim_command('edit ' .. compositefiledir)
    vim.api.nvim_command('edit ' .. files)
  end
 
+
+ local function follow_link()
+  --must be in the right format of link script should just fall off after <CR>
+
+  -- extract filename from the current line
+  local line_num = vim.fn.line('.')
+  local line_text = vim.fn.getline(line_num)
+  local filename = string.match(line_text, "%((.-)%)")
+
+  if filename == nil then return end
+  local target_path = vim.fn.fnamemodify(filename, ':p')
+
+  -- check if the file exists
+  if vim.fn.filereadable(target_path) == 1 then
+    -- open the file in a new buffer
+    vim.cmd('e ' .. target_path)
+  else
+    -- print('File not found: ' .. target_path)
+  end
+ end
+
+ -- we could even convert the list_todo_items script into telescope picker
  return {
    list_todo_items = list_todo_items,
+   follow_link = follow_link,
  }
-
--- ## Markdown Group Fomatting
--- local api = vim.api
--- local fn = vim.fn
---
--- local function list_todo_items()
---   local todo_items = {}
---   local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "*", 0, 1)
---   for _, file in ipairs(files) do
---     if fn.filereadable(file) == 1 then
---       local lines = api.nvim_call_function("readfile", {file})
---       local file_todos = {}
---       for _, line in ipairs(lines) do
---         if string.match(line, "^%s*%- %[%s*x%s*%]") then
---           table.insert(file_todos, line)
---         end
---       end
---       if next(file_todos) ~= nil then
---         table.insert(todo_items, {filename = file, todos = file_todos})
---       end
---     end
---   end
---   local output_file = io.open("composite.md", "w")
---   for _, item in ipairs(todo_items) do
---     output_file:write(string.format("## %s\n", item.filename))
---     for _, todo in ipairs(item.todos) do
---       output_file:write(string.format("- %s\n", todo))
---     end
---     output_file:write("\n")
---   end
---   output_file:close()
--- end
---
--- return {
---   list_todo_items = list_todo_items,
--- }
-
--- ## print out todo_items in a local composite.md file
--- local api = vim.api
--- local fn = vim.fn
---
--- local function list_todo_items()
---   local todo_items = {}
---   local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "*", 0, 1)
---   for _, file in ipairs(files) do
---     if fn.filereadable(file) == 1 then
---       local lines = api.nvim_call_function("readfile", {file})
---       for _, line in ipairs(lines) do
---         if string.match(line, "^%s*%- %[%s*x%s*%]") then
---           table.insert(todo_items, {filename = file, line = line})
---         end
---       end
---     end
---   end
---   local output_file = io.open("composite.md", "w")
---   for _, item in ipairs(todo_items) do
---     output_file:write(string.format("%s: %s\n", item.filename, item.line))
---   end
---   output_file:close()
--- end
---
--- return {
---   list_todo_items = list_todo_items,
--- }
-
--- ## print todo_items in folder
--- local api = vim.api
--- local fn = vim.fn
---
--- local function list_todo_items()
---   local todo_items = {}
---   local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "*", 0, 1)
---   for _, file in ipairs(files) do
---     if fn.filereadable(file) == 1 then
---       local lines = api.nvim_call_function("readfile", {file})
---       for _, line in ipairs(lines) do
---         if string.match(line, "^%s*%- %[%s*x%s*%]") then
---           table.insert(todo_items, {filename = file, line = line})
---         end
---       end
---     end
---   end
---   return todo_items
--- end
---
--- return {
---   list_todo_items = list_todo_items,
--- }
-
--- ## print todo_items
--- local api = vim.api
---
--- local function list_todo_items()
---   local todo_items = {}
---   local bufnr = api.nvim_get_current_buf()
---   local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
---   for _, line in ipairs(lines) do
---     if string.match(line, "^%s*%- %[%s*x%s*%]") then
---       table.insert(todo_items, line)
---     end
---   end
---   return todo_items
--- end
---
--- return {
---   list_todo_items = list_todo_items,
--- }
-
--- ## highlight todo_items
--- local api = vim.api
---
--- local function find_todo_items()
---   local bufnr = api.nvim_get_current_buf()
---   local lines = api.nvim_buf_get_lines(bufnr, 0, -1, false)
---   local todo_items = {}
---   for i, line in ipairs(lines) do
---     if string.match(line, "^%s*%- %[%s*x%s*%]") then
---       table.insert(todo_items, {line = line, line_number = i})
---     end
---   end
---   return todo_items
--- end
---
--- local function highlight_todo_items()
---   local todo_items = find_todo_items()
---   for _, item in ipairs(todo_items) do
---     api.nvim_buf_add_highlight(0, -1, "Todo", item.line_number - 1, 0, -1)
---   end
--- end
---
--- return {
---   find_todo_items = find_todo_items,
---   highlight_todo_items = highlight_todo_items,
--- }
---

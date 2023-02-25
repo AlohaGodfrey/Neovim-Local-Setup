@@ -79,10 +79,9 @@ local opts = {
 }
 
 local mappings = {
-  -- Available keys: n, y, k, m
+  -- Available keys: n, y, k, m, A, b, u
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-  ["A"] = { "<cmd>lua require('impulse').menu_search()<cr>", "Notion.so" },
-  ["b"] = {
+  ["B"] = {
     "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Buffers",
   },
@@ -91,17 +90,12 @@ local mappings = {
   ["q"] = { "<cmd>q<CR>", "Quit" },
   ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-  ["i"] = { "<cmd>AerialToggle float<CR>", "Aerial" },
+  ["i"] = { "<cmd>AerialToggle<CR>", "Aerial" },
   ["I"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   ["f"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
-  ["u"] = {"<cmd>lua require('telescope.builtin').lsp_document_symbols(require('telescope.themes').get_dropdown())<CR>", "Doc Symbols"},
-  -- ["f"] = {
-  --   "<cmd>lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown{previewer = false}})<cr>",
-  --   "Find files", 
-  -- },
   ["o"] = {
     "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
     "Recent Files",
@@ -172,7 +166,8 @@ local mappings = {
     l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
     q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
     r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
-    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    -- s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    s = {"<cmd>lua require('telescope.builtin').lsp_document_symbols(require('telescope.themes').get_dropdown())<CR>", "Doc Symbols"},
     S = {
       "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
       "Workspace Symbols",
