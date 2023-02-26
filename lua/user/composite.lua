@@ -13,6 +13,7 @@
    local compositeFileRegex = target_file_name .. '%.md$'
    local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "**", 1, 1)
 
+   -- Search all files for todo items
    for _, file in ipairs(files) do
 
      if not string.match(file, compositeFileRegex) and fn.filereadable(file) == 1 then
@@ -46,16 +47,19 @@
    -- local target_path = string.format("%s/%s.md", base_path, target_file_name)
    local output_file = io.open(target_path, "w")
    if output_file == nil then return end
-   -- -- Write a title
-   local title = string.format("### %s \n \n", base_path:match(".*/(.*)"))
-   output_file:write(string.format("### %s \n \n", base_path:match(".*/(.*)")))
 
+   -- Write a title
+   local directoryName = string.format("### %s \n \n", base_path:match(".*/(.*)"))
+   output_file:write(directoryName)
+
+   -- Fill in todo data
    for _, item in ipairs(todo_items) do
      local filename = vim.fn.fnamemodify(item.filepath, ':t')
      local shortFilename = string.gsub(filename, '%.md$', '')
      local shortFilenameMd = shortFilename .. ".md"
      -- output_file:write(string.format("##### [%s](%s)\n", shortFilename, item.filepath))
-     output_file:write(string.format("##### [%s](%s)\n", shortFilename, shortFilenameMd))
+     -- output_file:write(string.format("##### [%s](%s)\n", shortFilename, shortFilenameMd))
+     output_file:write(string.format("##### [[%s]]\n", shortFilename, shortFilenameMd))
      for _, todo in ipairs(item.todos) do
       output_file:write(string.format(" %s\n", todo))
      end
@@ -63,9 +67,12 @@
    end
    output_file:close()
 
-   local dir = vim.fn.getcwd()
-   local files = vim.fn.glob(dir .. '/*Composite.md')
-   vim.api.nvim_command('edit ' .. files)
+   -- Open composite file
+   local glob_string = string.format("/*%s.md", target_file_name)
+   local current_dir = vim.fn.getcwd()
+   -- local target_file_path = vim.fn.glob(current_dir .. '/*Composite.md')
+   local target_file_path = vim.fn.glob(current_dir .. glob_string)
+   vim.api.nvim_command('edit ' .. target_file_path)
  end
 
 
@@ -75,41 +82,21 @@
   -- extract filename from the current line
   local line_num = vim.fn.line('.')
   local line_text = vim.fn.getline(line_num)
-  -- local filename = string.match(line_text, "%((.-)%)")
-  local filename
 
-  if string.match(line_text, "%((.-)%)") then
-     filename = string.match(line_text, "%((.-)%)")
-  elseif string.match(line_text, "%[%[(.-)%]%]") .. ".md" then
-     filename = string.match(line_text, "%[%[(.-)%]%]") .. ".md"
-  else
-     return
-  end
-  -- if filename == nil then 
-  --    filename = string.match(line_text, "%[%[(.-)%]%]") .. ".md"
-  -- end
-  
-  -- if filename == nil then return end
+  -- check if filename is valid markdown format for obsidian i.e [[foo]]
+  local check_filename = line_text:match("%[%[(.-)%]%]") -- matches the text between [[ and ]]
+  if not check_filename then return end
 
-  -- find the correct relative path of the file
-  -- local target_path = vim.fn.fnamemodify(filename, ':p')
+  -- generate the filepath
   local relative_path = vim.fn.expand('%:p:h')
-  local target_path = relative_path .. "/" .. filename
-  print(target_path)
+  local target_file_path = relative_path .. "/" .. check_filename .. ".md"
 
   -- check if the file exists
-  if vim.fn.filereadable(target_path) == 1 then
+  if vim.fn.filereadable(target_file_path) == 1 then
     -- open the file in a new buffer
-    vim.cmd('e ' .. target_path)
-  else
-    -- print('File not found: ' .. target_path)
+    vim.cmd('e ' .. target_file_path)
   end
  end
 
  -- we could even convert the list_todo_items script into telescope picker
- -- return {
- --   list_todo_items = list_todo_items,
- --   follow_link = follow_link,
- -- }
-
  return M

@@ -43,7 +43,7 @@ packer.init({
 return packer.startup(function(use)
   -- Packer
   -- use { "wbthomason/packer.nvim", commit = "6afb67460283f0e990d35d229fd38fdc04063e0a" } -- Have packer manage itself
-  use { "wbthomason/packer.nvim" } -- Have packer manage itself
+  use { "wbthomason/packer.nvim" } -- Only plugin without a commit
   
   -- Plugins
   use { "lewis6991/impatient.nvim", commit = "b842e16ecc1a700f62adb9802f8355b99b52a5a6" } -- Performance increase with caching

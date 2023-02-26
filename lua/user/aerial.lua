@@ -10,4 +10,7 @@ aerial.setup({
   show_guides = true,
   -- Highlight the symbol in the source buffer when cursor is in the aerial win
   highlight_on_hover = true,
+  -- When true, don't load aerial until a command or function is called
+  -- Defaults to true, unless `on_attach` is provided, then it defaults to false
+  lazy_load = false,
 })

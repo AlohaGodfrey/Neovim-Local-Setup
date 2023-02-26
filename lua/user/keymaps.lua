@@ -78,6 +78,8 @@ keymap("n", "<C-BS>", ":edit #<CR>", opts)
 keymap("n", "<C-[>", ":lua require('aerial').prev(step)<CR>", opts)
 keymap("n", "<C-]>", ":lua require('aerial').next(step)<CR>", opts)
 
+-- Prevent plugins(like aerial) from hijacking the key
+keymap("n", "<ESC>", "<ESC>", opts)
 -- Terminal --
 -- Better terminal navigation
 -- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
