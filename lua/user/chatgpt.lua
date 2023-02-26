@@ -63,7 +63,7 @@ chatgpt.setup({
     n = 1,
   },
   keymaps = {
-    close = { "<C-c>", "<Esc>" },
+    close = { "<C-c>", "<Esc>", "<leader>q" },
     yank_last = "<C-y>",
     scroll_up = "<C-u>",
     scroll_down = "<C-d>",

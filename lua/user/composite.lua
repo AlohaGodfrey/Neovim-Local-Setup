@@ -1,14 +1,16 @@
  -- ## Include files in the subdirectories
  -- Open the composite file, in neovim if not already open
  -- Generated composite.md files compiling the tasks
+ local M = {}
  local api = vim.api
  local fn = vim.fn
 
  -- we need to fix the url to be shorter, so obsidan app can be aware
- local function list_todo_items()
+ function M.list_todo_items()
+   local target_file_name = "Composite"
    local todo_items = {}
    -- local compositefiledir = "/Users/imangodf/Documents/Obsidian/CommonPlace/composite.md"
-   local compositeFileRegex = 'composite%.md$'
+   local compositeFileRegex = target_file_name .. '%.md$'
    local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "**", 1, 1)
 
    for _, file in ipairs(files) do
@@ -21,7 +23,6 @@
            table.insert(file_todos, line)
          end
        end
-
        --Sort the tables content by list '- [ ]' first
        table.sort(file_todos)
        -- Append todo_items list with file_todos list
@@ -40,8 +41,14 @@
     end
 
    -- write to the composite file
-   local output_file = io.open("composite.md", "w")
+   local base_path = vim.fn.expand('%:p:h')
+   local target_path = base_path .. "/" .. target_file_name ..".md"
+   -- local target_path = string.format("%s/%s.md", base_path, target_file_name)
+   local output_file = io.open(target_path, "w")
    if output_file == nil then return end
+   -- -- Write a title
+   local title = string.format("### %s \n \n", base_path:match(".*/(.*)"))
+   output_file:write(string.format("### %s \n \n", base_path:match(".*/(.*)")))
 
    for _, item in ipairs(todo_items) do
      local filename = vim.fn.fnamemodify(item.filepath, ':t')
@@ -57,21 +64,38 @@
    output_file:close()
 
    local dir = vim.fn.getcwd()
-   local files = vim.fn.glob(dir .. '/*composite.md')
+   local files = vim.fn.glob(dir .. '/*Composite.md')
    vim.api.nvim_command('edit ' .. files)
  end
 
 
- local function follow_link()
+ function M.follow_link()
   --must be in the right format of link script should just fall off after <CR>
 
   -- extract filename from the current line
   local line_num = vim.fn.line('.')
   local line_text = vim.fn.getline(line_num)
-  local filename = string.match(line_text, "%((.-)%)")
+  -- local filename = string.match(line_text, "%((.-)%)")
+  local filename
 
-  if filename == nil then return end
-  local target_path = vim.fn.fnamemodify(filename, ':p')
+  if string.match(line_text, "%((.-)%)") then
+     filename = string.match(line_text, "%((.-)%)")
+  elseif string.match(line_text, "%[%[(.-)%]%]") .. ".md" then
+     filename = string.match(line_text, "%[%[(.-)%]%]") .. ".md"
+  else
+     return
+  end
+  -- if filename == nil then 
+  --    filename = string.match(line_text, "%[%[(.-)%]%]") .. ".md"
+  -- end
+  
+  -- if filename == nil then return end
+
+  -- find the correct relative path of the file
+  -- local target_path = vim.fn.fnamemodify(filename, ':p')
+  local relative_path = vim.fn.expand('%:p:h')
+  local target_path = relative_path .. "/" .. filename
+  print(target_path)
 
   -- check if the file exists
   if vim.fn.filereadable(target_path) == 1 then
@@ -83,7 +107,9 @@
  end
 
  -- we could even convert the list_todo_items script into telescope picker
- return {
-   list_todo_items = list_todo_items,
-   follow_link = follow_link,
- }
+ -- return {
+ --   list_todo_items = list_todo_items,
+ --   follow_link = follow_link,
+ -- }
+
+ return M

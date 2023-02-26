@@ -80,29 +80,30 @@ local opts = {
 
 local mappings = {
   -- Available keys: n, y, k, m, A, b, u
+  ["1"]  = { "<cmd>ChatGPT<cr>", "ChatGPT"},
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["B"] = {
     "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Buffers",
   },
-  ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-  ["w"] = { "<cmd>w!<CR>", "Save" },
-  ["q"] = { "<cmd>q<CR>", "Quit" },
-  ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-  ["i"] = { "<cmd>AerialToggle<CR>", "Aerial" },
-  ["I"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
+  ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
   ["f"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
+  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
+  ["i"] = { "<cmd>AerialToggle<CR>", "Aerial" },
+  ["I"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   ["o"] = {
     "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
     "Recent Files",
   },
-  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
   ["O"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
+  ["q"] = { "<cmd>q<CR>", "Quit" },
+  ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
+  ["w"] = { "<cmd>w!<CR>", "Save" },
   -- k = {
   --   name = "Managed Fleets",
   --   c = { ":! pbpaste | xargs -I '{}' tmux send-keys -t ManagedFleets.1 \"bre SlamHelp -s {} -ss \" Enter", "Tmux-Service-Name" },

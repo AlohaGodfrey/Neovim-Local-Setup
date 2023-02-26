@@ -72,7 +72,7 @@ keymap("v", "<C-x>", ":'<,'> Telekasten toggle_todo<CR>", opts)
 keymap("n", "<CR>", ":lua require('user.composite').follow_link()<CR>", opts)
 
 -- Shortcut to bring back last/lost buffers
-keymap("n", "<S-BS>", ":edit #<CR>", opts)
+keymap("n", "<C-BS>", ":edit #<CR>", opts)
 
 -- Aerial shortcut to jump to next heading
 keymap("n", "<C-[>", ":lua require('aerial').prev(step)<CR>", opts)
