@@ -5,46 +5,29 @@
  local api = vim.api
  local fn = vim.fn
 
- -- we need to fix the url to be shorter, so obsidan app can be aware
  function M.list_todo_items()
+
    local target_file_name = "Composite"
-   local todo_items = {}
-   -- local compositefiledir = "/Users/imangodf/Documents/Obsidian/CommonPlace/composite.md"
+   local composite_table = {}
    local compositeFileRegex = target_file_name .. '%.md$'
-   local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "**", 1, 1)
 
    -- Search all files for todo items
-   for _, file in ipairs(files) do
+   M.return_list_todo_table(compositeFileRegex, composite_table)
 
-     if not string.match(file, compositeFileRegex) and fn.filereadable(file) == 1 then
-       local lines = api.nvim_call_function("readfile", {file})
-       local file_todos = {}
-       for _, line in ipairs(lines) do
-         if string.match(line, "^%s*%- %[[x ]%]") then
-           table.insert(file_todos, line)
-         end
-       end
-       --Sort the tables content by list '- [ ]' first
-       table.sort(file_todos)
-       -- Append todo_items list with file_todos list
-       if next(file_todos) ~= nil then
-         table.insert(todo_items, {filepath = file, todos = file_todos})
-       end
-     end
-   end
+   -- M.print_nested_table(composite_table, 2)
+   M.write_to_file(target_file_name, composite_table)
 
-    -- close any open composite.md buffers
-    for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
-      -- if vim.api.nvim_buf_get_name(buffer) == compositefiledir then
-      if string.match(vim.api.nvim_buf_get_name(buffer), compositeFileRegex) then
-        vim.api.nvim_command('bwipeout!' .. buffer)
-      end
-    end
+   -- Open composite file
+   local current_dir = vim.fn.expand('%:p:h')
+   local target_file_path = string.format("%s/%s.md", current_dir, target_file_name)
+   vim.api.nvim_command('edit ' .. target_file_path)
+ end
+
+ function M.write_to_file(target_file_name, composite_table)
 
    -- write to the composite file
    local base_path = vim.fn.expand('%:p:h')
    local target_path = base_path .. "/" .. target_file_name ..".md"
-   -- local target_path = string.format("%s/%s.md", base_path, target_file_name)
    local output_file = io.open(target_path, "w")
    if output_file == nil then return end
 
@@ -53,30 +36,45 @@
    output_file:write(directoryName)
 
    -- Fill in todo data
-   for _, item in ipairs(todo_items) do
+   for _, item in ipairs(composite_table) do
      local filename = vim.fn.fnamemodify(item.filepath, ':t')
      local shortFilename = string.gsub(filename, '%.md$', '')
      local shortFilenameMd = shortFilename .. ".md"
-     -- output_file:write(string.format("##### [%s](%s)\n", shortFilename, item.filepath))
-     -- output_file:write(string.format("##### [%s](%s)\n", shortFilename, shortFilenameMd))
      output_file:write(string.format("##### [[%s]]\n", shortFilename, shortFilenameMd))
-     for _, todo in ipairs(item.todos) do
+     for _, todo in ipairs(item.todo_list) do
       output_file:write(string.format(" %s\n", todo))
      end
      output_file:write("\n")
    end
    output_file:close()
-
-   -- Open composite file
-   local glob_string = string.format("/*%s.md", target_file_name)
-   local current_dir = vim.fn.getcwd()
-   -- local target_file_path = vim.fn.glob(current_dir .. '/*Composite.md')
-   local target_file_path = vim.fn.glob(current_dir .. glob_string)
-   vim.api.nvim_command('edit ' .. target_file_path)
  end
 
+ function M.return_list_todo_table(compositeFileRegex, composite_table)
+
+   -- Search all files for todo items
+   local files = fn.globpath(api.nvim_eval("expand('%:p:h')"), "**", 1, 1)
+   for _, file in ipairs(files) do
+
+     if not string.match(file, compositeFileRegex) and fn.filereadable(file) == 1 then
+       local lines = api.nvim_call_function("readfile", {file})
+       local todo_items = {}
+       for _, line in ipairs(lines) do
+         if string.match(line, "^%s*%- %[[x ]%]") then
+           table.insert(todo_items, line)
+         end
+       end
+       --Sort the tables content by list '- [ ]' first
+       table.sort(todo_items)
+       -- Append todo_items list with file_todos list
+       if next(todo_items) ~= nil then
+         table.insert(composite_table, {filepath = file, todo_list = todo_items})
+       end
+     end
+   end
+ end
 
  function M.follow_link()
+
   --must be in the right format of link script should just fall off after <CR>
 
   -- extract filename from the current line
@@ -96,6 +94,84 @@
     -- open the file in a new buffer
     vim.cmd('e ' .. target_file_path)
   end
+ end
+
+ function M.bidirectional_update()
+    -- Cancelled update, will resume if I have time
+    -- All we need to do is compare the tables, and overwrite the changes.
+    -- Can't lie let me admit defeat, wasn't worth upgrading just revert
+    -- file will grab updates from the composite.md file and propagate them to source upon write
+    -- composite.md is a Transient file, lets just focus on propagating the status from done to undone
+
+    -- Read composite file and sort into lists
+    -- Capture the files and todos
+    -- Compare and apply updates
+
+    -- Open the file for reading
+    -- local file = io.open("Composite.md", "r")
+
+    local target_file_name = "Composite"
+    local base_path = vim.fn.expand('%:p:h')
+    local target_path = base_path .. "/" .. target_file_name ..".md"
+    -- Initialize the todo_items table
+    local composite_table = {}
+    local file = io.open(target_path, "r")
+    if file == nil then
+      print("File Not Found")
+      return
+    end
+
+   -- nested do-while loops one for filepath, another for todo_items
+    while true do
+      local line = file:read()
+      local todo_items = {}
+      if line == nil then
+        break
+      end
+
+      -- local filepath_match = string.match(line,"^#+%s*(%[%[.+%]%])%s*$")
+      local filepath_match = string.match(line,"%[%[(.-)%]%]")
+      if filepath_match then
+        local filename = vim.fn.expand('%:p:h') .. "/" .. filepath_match .. ".md"
+        local todo_line = file:read()
+        local todo_item = string.match(todo_line, "^%s*%- %[[x ]%].+$")
+        while todo_item do
+          table.insert(todo_items, todo_item)
+          todo_line = file:read()
+          if todo_line == nil then
+            break
+          end
+          todo_item = string.match(todo_line, "^%s*%- %[[x ]%].+$")
+        end
+        table.insert(composite_table, {filepath = filename, todo_list = todo_items})
+      end
+    end
+    -- Close the file
+    file:close()
+
+    -- Print the todo_items table for testing
+    M.print_nested_table(composite_table, 2)
+
+    -- Compare against the other tables
+    local compositeFileRegex = 'Composite%.md$'
+    local list_todo_table_cpy
+    M.return_list_todo_table(compositeFileRegex, list_todo_table_cpy)
+    M.print_nested_table(list_todo_table_cpy, 2)
+    
+    -- If there are any difference, find the item, and toggle the check box
+ end
+
+ function M.print_nested_table(tbl, indent)
+
+    indent = indent or 0
+    for k, v in pairs(tbl) do
+      if type(v) == "table" then
+        print(string.rep("  ", indent) .. k .. ":")
+        M.print_nested_table(v, indent + 1)
+      else
+        print(string.rep("  ", indent) .. k .. ": " .. tostring(v))
+      end
+    end
  end
 
  -- we could even convert the list_todo_items script into telescope picker

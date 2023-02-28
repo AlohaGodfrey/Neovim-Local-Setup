@@ -79,7 +79,7 @@ local opts = {
 }
 
 local mappings = {
-  -- Available keys: n, y, k, m, A, b, u
+  -- Available keys: n, y, k, m, A, b, u, r 
   ["1"]  = { "<cmd>ChatGPT<cr>", "ChatGPT"},
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["B"] = {
@@ -88,20 +88,21 @@ local mappings = {
   },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-  ["f"] = {
+  ["O"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
   ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  ["i"] = { "<cmd>AerialToggle<CR>", "Aerial" },
-  ["I"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
-  ["o"] = {
-    "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
-    "Recent Files",
+  ["i"] = { "<cmd>AerialToggle float<CR>", "Aerial" },
+  ["f"] = {
+  -- We have replaced the command with the frecency adaptation in telescope.lua
+  --   "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
+    "Frecent Files",
   },
-  ["O"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
+  ["o"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
   ["q"] = { "<cmd>q<CR>", "Quit" },
   ["Q"] = { "<cmd>q!<CR>", "Quit" },
+  ["R"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   -- k = {
