@@ -3,24 +3,29 @@ if not status_ok then
   return
 end
 
+vim.o.timeout = true
+vim.o.timeoutlen = 500
+local presets = require("which-key.plugins.presets")
+presets.operators["g"] = nil
+
 local setup = {
   plugins = {
     marks = false, -- shows a list of your marks on ' and `
     registers = false, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
     spelling = {
-      enabled = false, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-      suggestions = 20, -- how many suggestions should be shown in the list?
+      enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+      suggestions = 10, -- how many suggestions should be shown in the list?
     },
     -- the presets plugin, adds help for a bunch of default keybindings in Neovim
     -- No actual key bindings are created
     presets = {
       operators = false, -- adds help for operators like d, y, ... and registers them for motion / text object completion
-      motions = true, -- adds help for motions
+      motions = false, -- adds help for motions
       text_objects = true, -- help for text objects triggered after entering an operator
       windows = true, -- default bindings on <c-w>
       nav = true, -- misc bindings to work with windows
-      z = false, -- bindings for folds, spelling and others prefixed with z
-      g = false, -- bindings for prefixed with g
+      z = true, -- bindings for folds, spelling and others prefixed with z
+      g = true, -- bindings for prefixed with g
     },
   },
   -- add operators that will trigger motion and text object completion
@@ -79,7 +84,7 @@ local opts = {
 }
 
 local mappings = {
-  -- Available keys: n, y, k, m, A, b, u, r 
+  -- Available keys: d, n, y, A, b, u, r, v, p, z, d, x, u, y, r
   ["1"]  = { "<cmd>ChatGPT<cr>", "ChatGPT"},
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["B"] = {
@@ -88,22 +93,24 @@ local mappings = {
   },
   ["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
   ["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
+  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
+  ["i"] = { "<cmd>AerialToggle float<CR>", "Aerial" },
+  -- ["m"] = { "z=", "Spelling"},
+  ["m"] = { "<cmd>HopLine<cr>", "Jump Line"},
   ["O"] = {
     "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
     "Find files",
   },
-  ["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-  ["i"] = { "<cmd>AerialToggle float<CR>", "Aerial" },
-  ["f"] = {
+  ["o"] = {
   -- We have replaced the command with the frecency adaptation in telescope.lua
   --   "<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=CWD<cr>",
     "Frecent Files",
   },
-  ["o"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
+  ["f"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
   ["q"] = { "<cmd>q<CR>", "Quit" },
   ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["R"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
-  ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
+  -- ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   -- k = {
   --   name = "Managed Fleets",
@@ -112,14 +119,14 @@ local mappings = {
   --   v = { ":! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-ID" },
   --   -- d = { ":! pbpaste | xargs -I '{}' grep '{}' ~/workplace/simls_cache | cut -d \" \"  -f 4 | xargs -I '{}' tmux send-keys -t 1 \"bre SlamHelp find -s {} -ss\" Enter <CR><CR>", "Tmux w/o SSH" },
   -- },
-  p = {
-    name = "Packer",
-    c = { "<cmd>PackerCompile<cr>", "Compile" },
-    i = { "<cmd>PackerInstall<cr>", "Install" },
-    s = { "<cmd>PackerSync<cr>", "Sync" },
-    S = { "<cmd>PackerStatus<cr>", "Status" },
-    u = { "<cmd>PackerUpdate<cr>", "Update" },
-  },
+  -- p = {
+  --   name = "Packer",
+  --   c = { "<cmd>PackerCompile<cr>", "Compile" },
+  --   i = { "<cmd>PackerInstall<cr>", "Install" },
+  --   s = { "<cmd>PackerSync<cr>", "Sync" },
+  --   S = { "<cmd>PackerStatus<cr>", "Status" },
+  --   u = { "<cmd>PackerUpdate<cr>", "Update" },
+  -- },
   g = {
     name = "Git",
     g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit" },

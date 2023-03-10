@@ -65,7 +65,7 @@ return packer.startup(function(use)
   use { "phaazon/hop.nvim", branch = "v2", commit = "90db1b2c61b820e230599a04fedcd2679e64bd07" } -- quick motions
   use { "renerocksai/telekasten.nvim", commit = "7a6e89131e06c124cdf1d51d7169a19bd507e858" } -- zettelkasten features
   use { "kylechui/nvim-surround", commit = "ad56e6234bf42fb7f7e4dccc7752e25abd5ec80e"  }
-  use { "jackMort/ChatGPT.nvim", commit = "dac83f630fc6aafd256b149a2c2ae0d4466ec85e" }
+  use { "jackMort/ChatGPT.nvim", commit = "60b4824f34603d1553374e1a4873bc0ea0dc6ee3" }
   use { "stevearc/aerial.nvim", commit = "5b788392ec571621891e1b73887af5ac12056610" }
   use { "andrewferrier/wrapping.nvim", commit = "fcd57ac890f2af39fb1ddda54e989a15c7158629" } -- soft and hard markdown wraps
   use { "folke/drop.nvim", event = "VimEnter", commit = "9e41e751d5f09b1e1333afe7eb9315f392e507fa" } -- autumn leaf drop

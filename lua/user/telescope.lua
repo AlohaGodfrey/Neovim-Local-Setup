@@ -129,7 +129,7 @@ telescope.load_extension("frecency")
 vim.cmd([[autocmd BufEnter * lua Switch_Frecency_Working_Directory()]])
 
 
-function Switch_Frecency_Working_Directory()
+function Calculate_frecency_cwd()
   local current_dir = vim.fn.expand('%:p:h')
   local workspace = ""
   local workspaces = {
@@ -138,7 +138,7 @@ function Switch_Frecency_Working_Directory()
     ["aws"]  = "/Users/imangodf/Documents/Obsidian/AWS",
     ["nvim"] = "/Users/imangodf/.config/nvim",
   }
-  
+
   if string.match(current_dir, "AWS") then
     workspace = "aws"
   elseif string.match(current_dir, "CommonPlace") then
@@ -150,7 +150,20 @@ function Switch_Frecency_Working_Directory()
   else
     workspace = "CWD"
   end
-  -- local update_keymap = string.format("<Cmd>lua require('telescope').extensions.frecency.frecency({ workspace = '%s' })<CR>", workspace)
+
+  return workspace
+end
+
+function Switch_Frecency_Working_Directory()  -- local update_keymap = string.format("<Cmd>lua require('telescope').extensions.frecency.frecency({ workspace = '%s' })<CR>", workspace)
+  local workspace = Calculate_frecency_cwd()
   local update_keymap = string.format("<cmd>Telescope frecency theme=get_dropdown previewer=false workspace=%s<cr>", workspace)
-  vim.api.nvim_set_keymap("n", "<Space>f", update_keymap , {noremap = true, silent = true})
+  vim.api.nvim_set_keymap("n", "<Space>o", update_keymap , {noremap = true, silent = true})
+end
+
+function Open_Frecency_Working_Directory()
+  local workspace = Calculate_frecency_cwd()
+  -- Update command for alpha plugin
+  local frecency_vim_api_command = string.format("Telescope frecency theme=get_dropdown previewer=false workspace=%s", workspace)
+  -- ALPHA_FRECENCY_KEYMAP = string.format("vim.api.nvim_command(%s)", frecency_vim_api_command)
+  vim.api.nvim_command(frecency_vim_api_command)
 end

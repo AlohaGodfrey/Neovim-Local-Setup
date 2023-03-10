@@ -13,7 +13,8 @@ dashboard.section.header.val = {
 	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
 }
 dashboard.section.buttons.val = {
-	dashboard.button("f", "  Find file", ":Telescope find_files theme=dropdown previewer=false <CR>"),
+	-- dashboard.button("f", "  Find file", ":Telescope find_files theme=dropdown previewer=false <CR>"),
+	dashboard.button("f", "  Find file", ":lua Open_Frecency_Working_Directory() <CR>"),
 	dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 	dashboard.button("o", "  Recently used files", ":Telescope frecency theme=dropdown previewer=false <CR>"),
 	dashboard.button("l", "  Reopen last session", "<cmd>lua require(\"persistence\").load({ last = true })<cr>"),

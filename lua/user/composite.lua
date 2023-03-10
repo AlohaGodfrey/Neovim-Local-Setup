@@ -75,8 +75,13 @@
 
  function M.follow_link()
 
+  local workspaces = {
+    ["commonplace"]  = "/Users/imangodf/Documents/Obsidian/CommonPlace",
+    ["workplace"]  = "/Users/imangodf/workplace",
+    ["aws"]  = "/Users/imangodf/Documents/Obsidian/AWS",
+    ["nvim"] = "/Users/imangodf/.config/nvim",
+  }
   --must be in the right format of link script should just fall off after <CR>
-
   -- extract filename from the current line
   local line_num = vim.fn.line('.')
   local line_text = vim.fn.getline(line_num)
@@ -85,14 +90,33 @@
   local check_filename = line_text:match("%[%[(.-)%]%]") -- matches the text between [[ and ]]
   if not check_filename then return end
 
-  -- generate the filepath
-  local relative_path = vim.fn.expand('%:p:h')
-  local target_file_path = relative_path .. "/" .. check_filename .. ".md"
+  -- specify the directory to search in
+  local directoryPath = workspaces[Calculate_frecency_cwd()]
+  if directoryPath == "CWD" then
+    -- generate the filepath
+    local relative_path = vim.fn.expand('%:p:h')
+    local target_file_path = relative_path .. "/" .. check_filename .. ".md"
+  end
+  local filename = check_filename .. ".md"
+  -- use the 'find' command to search for the file
+  local command = "find " .. directoryPath .. " -name '" .. filename .. "'"
 
-  -- check if the file exists
-  if vim.fn.filereadable(target_file_path) == 1 then
-    -- open the file in a new buffer
-    vim.cmd('e ' .. target_file_path)
+  local handle = io.popen(command)
+  if handle ~= nil then
+    local target_file_path = handle:read("*a")
+    handle:close()
+    -- check if the file was found
+    if target_file_path ~= "" then
+      -- Text needed to be surround by qoutes before operation
+      local sanitiseText = target_file_path:gsub("%s*$", "")
+      -- check if the file exists
+      if vim.fn.filereadable(sanitiseText) == 1 then
+        -- open the file in a new buffer
+        vim.cmd('e ' .. target_file_path)
+      end
+    else
+      print("File not found.")
+    end
   end
  end
 

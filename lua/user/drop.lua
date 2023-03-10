@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 drop.setup({
-  max = 10,
+  max = 2,
   interval = 150,
   filetypes = {},
 })
