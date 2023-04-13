@@ -65,6 +65,10 @@ local setup = {
   show_help = true, -- show help message on the command line when the popup is visible
   triggers = "auto", -- automatically setup triggers
   -- triggers = {"<leader>"} -- or specify a list manually
+  triggers_nowait = {
+    -- Spelling nowait
+    "<C-i>"
+  },
   triggers_blacklist = {
     -- list of mode / prefixes that should never be hooked by WhichKey
     -- this is mostly relevant for key maps that start with a native binding
@@ -84,7 +88,7 @@ local opts = {
 }
 
 local mappings = {
-  -- Available keys: d, n, y, A, b, u, r, v, p, z, d, x, u, y, r
+  -- Available keys: d, n, y, A, b, u, r, p, z, d, x, u, y, r
   ["1"]  = { "<cmd>ChatGPT<cr>", "ChatGPT"},
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["B"] = {
@@ -111,6 +115,7 @@ local mappings = {
   ["Q"] = { "<cmd>q!<CR>", "Quit" },
   ["R"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   -- ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
+  ["v"] = { ":! pbpaste | xargs -I '{}' chrome-cli open {} <CR><CR>", "chrome-cli" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
   -- k = {
   --   name = "Managed Fleets",

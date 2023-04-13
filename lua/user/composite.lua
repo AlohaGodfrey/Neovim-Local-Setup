@@ -93,7 +93,7 @@
   -- specify the directory to search in
   local directoryPath = workspaces[Calculate_frecency_cwd()]
   if directoryPath == "CWD" then
-    -- generate the filepath
+    -- generate a relative filepath
     local relative_path = vim.fn.expand('%:p:h')
     local target_file_path = relative_path .. "/" .. check_filename .. ".md"
   end
@@ -198,5 +198,43 @@
     end
  end
 
+ function M.rewrap_file()
+
+  local max_line_length = 92
+  -- Get the contents of the current buffer
+  local contents = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n')
+
+  -- Split the contents into lines
+  local lines = {}
+  for line in contents:gmatch("(.-)\r?\n") do
+    table.insert(lines, line)
+  end
+
+  -- Rewrap each line, skipping URLs
+  for i, line in ipairs(lines) do
+    -- Check if the line is a URL (starts with http:// or https://)
+    local is_url = line:find("^https?://") ~= nil
+    
+    if not is_url then
+      local new_lines = {}
+      while #line > max_line_length do
+        local split_point = line:sub(1, max_line_length):find("%s[^%s]*$")
+        if not split_point then
+          split_point = max_line_length
+        end
+        table.insert(new_lines, line:sub(1, split_point))
+        line = line:sub(split_point + 1)
+      end
+      table.insert(new_lines, line)
+      lines[i] = table.concat(new_lines, '\n')
+    end
+  end
+
+  -- Write the new contents back to the buffer
+  local new_contents = table.concat(lines, '\n')
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(new_contents, '\n'))
+ end
+
+  
  -- we could even convert the list_todo_items script into telescope picker
  return M

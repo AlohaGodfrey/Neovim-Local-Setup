@@ -89,6 +89,8 @@ keymap("n", "<C-]>", ":lua require('aerial').next(step)<CR>", opts)
 -- Prevent plugins(like aerial) from hijacking the key
 keymap("n", "<ESC>", "<ESC>", opts)
 
+-- Remap which-key spellchecker to Ctrl-i
+require("which-key.keys").register({ ["<C-i>"] = {"spelling", plugin = "spelling" } }, { mode = "n"} )
 -- Terminal --
 -- Better terminal navigation
 -- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
