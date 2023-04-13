@@ -89,6 +89,7 @@ local opts = {
 
 local mappings = {
   -- Available keys: d, n, y, A, b, u, r, p, z, d, x, u, y, r
+  ["2"]  = { "04wyt\" :! pbpaste | xargs -I '{}' chrome-cli open https://github.com/{} <cr><cr>" , "Custom Debug"},
   ["1"]  = { "<cmd>ChatGPT<cr>", "ChatGPT"},
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["B"] = {
@@ -112,7 +113,7 @@ local mappings = {
   },
   ["f"] = { "<cmd>Telescope oldfiles theme=ivy<cr>", "Old Files" },
   ["q"] = { "<cmd>q<CR>", "Quit" },
-  ["Q"] = { "<cmd>q!<CR>", "Quit" },
+  ["Q"] = { "<cmd>q!<CR>", "Force Quit" },
   ["R"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   -- ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
   ["v"] = { ":! pbpaste | xargs -I '{}' chrome-cli open {} <CR><CR>", "chrome-cli" },
