@@ -66,7 +66,7 @@ return packer.startup(function(use)
   use { "renerocksai/telekasten.nvim", commit = "7a6e89131e06c124cdf1d51d7169a19bd507e858" } -- zettelkasten features
   use { "kylechui/nvim-surround", commit = "ad56e6234bf42fb7f7e4dccc7752e25abd5ec80e"  }
   use { "jackMort/ChatGPT.nvim", commit = "60b4824f34603d1553374e1a4873bc0ea0dc6ee3" }
-  use { "stevearc/aerial.nvim", commit = "7371322c60120a56bcc833c407de96be42c18172"}
+  use { "stevearc/aerial.nvim", commit = "9ee71844b921fd7aaafb007f6a5dc5eb7181d86a"}
   use { "andrewferrier/wrapping.nvim", commit = "fcd57ac890f2af39fb1ddda54e989a15c7158629" } -- soft and hard markdown wraps
   use { "folke/drop.nvim", event = "VimEnter", commit = "9e41e751d5f09b1e1333afe7eb9315f392e507fa" } -- autumn leaf drop
 
@@ -116,7 +116,7 @@ return packer.startup(function(use)
   use { "nvim-telescope/telescope-frecency.nvim", commit = "62cbd4e7f55fb6de2b8081087ce97026022ffcd2"}
 
 	-- Treesitter
-	use { "nvim-treesitter/nvim-treesitter" , commit = "0efa55ae2e6676b1a4cb66c5ee31ea295c6ebc2f"}
+	use { "nvim-treesitter/nvim-treesitter", commit = "0efa55ae2e6676b1a4cb66c5ee31ea295c6ebc2f" }
 
 	-- Git
 	use { "lewis6991/gitsigns.nvim", commit = "2c6f96dda47e55fa07052ce2e2141e8367cbaaf2" }
