@@ -88,8 +88,8 @@ local opts = {
 }
 
 local mappings = {
-  -- Available keys: d, n, y, A, b, u, r, p, z, d, x, u, y, r
-  ["2"]  = { "04wyt\" :! pbpaste | xargs -I '{}' chrome-cli open https://github.com/{} <cr><cr>" , "Custom Debug"},
+  -- Available keys: d, n, y, A, b, u, r, p, z, d, x, u, r
+  ["2"]  = { "04wyt\" :! pbpaste | xargs -I '{}' chrome-cli open https://github.com/{} <cr><cmd>" , "Custom Debug"},
   ["1"]  = { "<cmd>ChatGPT<cr>", "ChatGPT"},
   ["a"] = { "<cmd>Alpha<cr>", "Alpha" },
   ["B"] = {
@@ -116,8 +116,9 @@ local mappings = {
   ["Q"] = { "<cmd>q!<CR>", "Force Quit" },
   ["R"] = { "<cmd>lua require('user.composite').list_todo_items()<CR>", "Collate Todo" },
   -- ["v"] = { "0lyw}:! pbpaste | xargs -I '{}' chrome-cli open https://issues.amazon.com/issues/MF-SLA-{} <CR><CR>", "Web-CV-Service" },
-  ["v"] = { ":! pbpaste | xargs -I '{}' chrome-cli open {} <CR><CR>", "chrome-cli" },
+  ["v"] = { ":! pbpaste | xargs -I '{}' chrome-cli open {} <CR><cmd>", "chrome-cli" },
   ["w"] = { "<cmd>w!<CR>", "Save" },
+  ["y"] = { "yy <cmd>! pbpaste | xargs -I '{}' chrome-cli open {} <CR> <cmd><cr>", "Open URL" },
   -- k = {
   --   name = "Managed Fleets",
   --   c = { ":! pbpaste | xargs -I '{}' tmux send-keys -t ManagedFleets.1 \"bre SlamHelp -s {} -ss \" Enter", "Tmux-Service-Name" },
